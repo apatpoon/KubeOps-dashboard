@@ -17,8 +17,6 @@ func InitApi(eng *gin.Engine) {
 	// Registering Middleware Here
 	eng.Use(middlewares.CorsMiddleware)
 
-	api.GET("nodes", controllers.GetNodesListHandler)
-	api.GET("deployments", controllers.GetDeploymentListHandler)
-	api.GET("services", controllers.GetServiceListHandler)
-	api.GET("statefulsets", controllers.GetStatefulSetListHandler)
+	api.GET("/:resourceType", controllers.ListResourceHandler)
+
 }
