@@ -6,7 +6,8 @@ import (
 )
 
 type Resource interface {
-	List(clientSet *kubernetes.Clientset, listOption metav1.ListOptions, namespace string) (interface{}, error)
+	List(clientSet *kubernetes.Clientset, listOptions metav1.ListOptions, namespace string) (interface{}, error)
+	Update(clientSet *kubernetes.Clientset, oldResourceObj interface{}, updateOptions metav1.UpdateOptions, namespace string) (interface{}, error)
 }
 
 type Deployment struct {

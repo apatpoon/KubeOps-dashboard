@@ -18,5 +18,5 @@ func InitApi(eng *gin.Engine) {
 	eng.Use(middlewares.CorsMiddleware)
 
 	api.GET("/:resourceType", controllers.ListResourceHandler)
-
+	api.POST("/:resourceType", controllers.UpdateResourceHandler)
 }

@@ -20,6 +20,7 @@ func main() {
 	if err := flag.Set("alsologtostderr", "true"); err != nil {
 		panic(err)
 	}
+
 	flag.Parse()
 
 	// Middleware Plugin
