@@ -5,7 +5,9 @@ import (
 	"KubeOps-dashboard/pkg/kubernetes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	corev1 "k8s.io/api/core/v1"
@@ -35,6 +37,13 @@ func DeleteResourceHandler(c *gin.Context) {
 	var namespace string
 
 	bytes, _ := ioutil.ReadAll(c.Request.Body)
+
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Printf("Close Req Body Error: %s\n", err.Error())
+		}
+	}(c.Request.Body)
 
 	err := json.Unmarshal(bytes, &reqParam)
 	if err != nil {
