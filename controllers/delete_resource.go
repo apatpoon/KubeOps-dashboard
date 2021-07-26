@@ -56,6 +56,7 @@ func DeleteResourceHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, "Resource name required")
 		return
 	}
+
 	if namespace = reqParam["namespace"]; len(namespace) <= 0 {
 		namespace = corev1.NamespaceDefault
 	}

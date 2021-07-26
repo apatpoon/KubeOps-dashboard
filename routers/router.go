@@ -14,6 +14,7 @@ func InitApi(eng *gin.Engine) {
 	// Apis Group
 	api := eng.Group("/api/v1")
 
+	gin.SetMode(gin.DebugMode)
 	// Registering Middleware Here
 	eng.Use(middlewares.CorsMiddleware)
 
