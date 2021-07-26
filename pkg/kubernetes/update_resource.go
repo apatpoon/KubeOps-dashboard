@@ -9,24 +9,24 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-func (dp *Deployment) Update(clientSet *kubernetes.Clientset, bodyBytes interface{}, updateOptions metav1.UpdateOptions, namespace string) (interface{}, error) {
+func (dp *Deployment) Update(clientSet *kubernetes.Clientset, bodyBytes interface{}, updateOptions metav1.UpdateOptions) (interface{}, error) {
 
-	var newObj *appsv1.Deployment
+	var newDeploy *appsv1.Deployment
 
-	err := json.Unmarshal(*bodyBytes.(*[]byte), &newObj)
+	err := json.Unmarshal(*bodyBytes.(*[]byte), &newDeploy)
 
 	if err != nil {
 		return nil, err
 	}
 
-	oldResourceObj, err := clientSet.AppsV1().Deployments(namespace).Get(context.Background(), newObj.Name, metav1.GetOptions{})
+	oldDeploy, err := clientSet.AppsV1().Deployments(newDeploy.Namespace).Get(context.Background(), newDeploy.Name, metav1.GetOptions{})
 	if err != nil {
 		return nil, err
 	}
 
-	oldResourceObj.Spec = newObj.Spec
+	oldDeploy.Spec = newDeploy.Spec
 
-	newDeploy, err := clientSet.AppsV1().Deployments(namespace).Update(context.Background(), oldResourceObj, updateOptions)
+	newDeploy, err = clientSet.AppsV1().Deployments(newDeploy.Namespace).Update(context.Background(), oldDeploy, updateOptions)
 
 	if err != nil {
 		return nil, err
@@ -35,16 +35,17 @@ func (dp *Deployment) Update(clientSet *kubernetes.Clientset, bodyBytes interfac
 	return newDeploy, nil
 }
 
-func (sts *StatefulSet) Update(clientSet *kubernetes.Clientset, oldResourceObj interface{}, updateOptions metav1.UpdateOptions, namespace string) (interface{}, error) {
-
-	return nil, nil
-}
-func (svc *Service) Update(clientSet *kubernetes.Clientset, oldResourceObj interface{}, updateOptions metav1.UpdateOptions, namespace string) (interface{}, error) {
+func (sts *StatefulSet) Update(clientSet *kubernetes.Clientset, oldResourceObj interface{}, updateOptions metav1.UpdateOptions) (interface{}, error) {
 
 	return nil, nil
 }
 
-func (nd *Node) Update(clientSet *kubernetes.Clientset, oldResourceObj interface{}, updateOptions metav1.UpdateOptions, namespace string) (interface{}, error) {
+func (svc *Service) Update(clientSet *kubernetes.Clientset, oldResourceObj interface{}, updateOptions metav1.UpdateOptions) (interface{}, error) {
+
+	return nil, nil
+}
+
+func (nd *Node) Update(clientSet *kubernetes.Clientset, oldResourceObj interface{}, updateOptions metav1.UpdateOptions) (interface{}, error) {
 
 	return nil, nil
 }

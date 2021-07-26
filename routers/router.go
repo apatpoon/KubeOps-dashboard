@@ -19,4 +19,5 @@ func InitApi(eng *gin.Engine) {
 
 	api.GET("/:resourceType", controllers.ListResourceHandler)
 	api.POST("/:resourceType", controllers.UpdateResourceHandler)
+	api.DELETE("/:resourceType", controllers.DeleteResourceHandler)
 }

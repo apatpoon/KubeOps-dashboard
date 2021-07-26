@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
+	corev1 "k8s.io/api/core/v1"
+
 	"github.com/gin-gonic/gin"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -14,7 +16,7 @@ func ListResourceHandler(c *gin.Context) {
 
 	var ResourceObj kubernetes.Resource
 
-	switch c.Param("resourceType") {
+	switch c.Param(resourceType) {
 	case Deployment:
 		ResourceObj = &kubernetes.Deployment{}
 	case StatefulSet:
@@ -31,7 +33,7 @@ func ListResourceHandler(c *gin.Context) {
 	var namespace string
 
 	if namespace = c.Param("namespace"); len(namespace) <= 0 {
-		namespace = "default"
+		namespace = corev1.NamespaceDefault
 	}
 
 	itemSlice, err := ResourceObj.List(global.KubernetesClient(), metav1.ListOptions{}, namespace)

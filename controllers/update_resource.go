@@ -4,7 +4,9 @@ import (
 	"KubeOps-dashboard/global"
 	"KubeOps-dashboard/pkg/kubernetes"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,18 +31,20 @@ func UpdateResourceHandler(c *gin.Context) {
 
 	bodyBytes, err := ioutil.ReadAll(c.Request.Body)
 
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Printf("Close Req Body Error: %s\n", err.Error())
+		}
+	}(c.Request.Body)
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	var namespace string
+	res, err := ResourceObj.Update(global.KubernetesClient(), &bodyBytes, metav1.UpdateOptions{})
 
-	if namespace = c.Param("namespace"); len(namespace) <= 0 {
-		namespace = "default"
-	}
-
-	res, err := ResourceObj.Update(global.KubernetesClient(), &bodyBytes, metav1.UpdateOptions{}, namespace)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
