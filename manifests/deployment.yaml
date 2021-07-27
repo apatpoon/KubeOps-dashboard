@@ -5,7 +5,6 @@ metadata:
   labels:
     app: kubeops-dashboard
 spec:
-  serviceAccountName: kubeops-dashboard
   selector:
     matchLabels:
       app: kubeops-dashboard
@@ -14,8 +13,10 @@ spec:
       labels:
         app: kubeops-dashboard
     spec:
+      serviceAccountName: cluster-admin-kubeops-dashboard
+      automountServiceAccountToken: false
       containers:
-        - name: whitelist
+        - name: kubeops-dashboard
           image: pooncheebean/kubeops-dashboard:latest
           imagePullPolicy: Always
           ports:

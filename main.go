@@ -3,25 +3,12 @@ package main
 import (
 	"KubeOps-dashboard/global"
 	"KubeOps-dashboard/routers"
-	"flag"
 
 	"github.com/gin-gonic/gin"
 	"k8s.io/klog/v2"
 )
 
 func main() {
-
-	// Init klog
-	klog.InitFlags(nil)
-	defer klog.Flush()
-	if err := flag.Set("logtostderr", "true"); err != nil {
-		panic(err)
-	}
-	if err := flag.Set("alsologtostderr", "true"); err != nil {
-		panic(err)
-	}
-
-	flag.Parse()
 
 	// Middleware Plugin
 	if err := global.Init(); err != nil {
