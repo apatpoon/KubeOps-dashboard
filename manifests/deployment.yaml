@@ -5,6 +5,7 @@ metadata:
   labels:
     app: kubeops-dashboard
 spec:
+  serviceAccountName: kubeops-dashboard
   selector:
     matchLabels:
       app: kubeops-dashboard
