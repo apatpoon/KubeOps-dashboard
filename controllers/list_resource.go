@@ -32,7 +32,7 @@ func ListResourceHandler(c *gin.Context) {
 
 	var namespace string
 
-	if namespace = c.Param("namespace"); len(namespace) <= 0 {
+	if namespace = c.Query("namespace"); len(namespace) <= 0 {
 		namespace = corev1.NamespaceDefault
 	}
 
