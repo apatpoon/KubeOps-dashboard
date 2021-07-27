@@ -9,8 +9,9 @@ COPY go.mod go.mod
 COPY go.sum go.sum
 
 # Copy the go source
-COPY main.go main.go
-COPY pkg/ pkg/
+COPY . .
+
+
 
 # Build
 ENV CGO_ENABLED=0
